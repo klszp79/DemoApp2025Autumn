@@ -1,4 +1,4 @@
-namespace DemoApp2025Autumn
+namespace DemoApp2025Autumn.App
 {
     public class WeatherForecast
     {

@@ -2,10 +2,10 @@
 {
     public interface IPersonService
     {
-        Person GetPersonById(int id);
+        Person GetPersonById(string id);
         List<Person> GetPeople();
         void AddPerson(Person person);
         void UpdatePerson(Person person);
-        void DeletePerson(int id);
+        void DeletePerson(string id);
     }
 }

@@ -6,7 +6,10 @@ namespace DemoApp2025Autumn.App
     public class PersonService : IPersonService
     {
         private readonly List<Person> _people = new List<Person>();
-        public PersonService() { }
+        public PersonService() 
+        {
+            _people = [];
+        }
         public void AddPerson(Person person)
         {
             if (person is not null)
@@ -15,13 +18,9 @@ namespace DemoApp2025Autumn.App
             }
         }
 
-        public void DeletePerson(int id)
+        public void DeletePerson(string id)
         {
-            var person = _people.Find(p => p.Id == id);
-            if (person is not null)
-            {
-                _people.Remove(person);
-            }
+            _people.RemoveAll(x => x.Id == id);
         }
 
         public List<Person> GetPeople()
@@ -29,22 +28,21 @@ namespace DemoApp2025Autumn.App
             return _people;
         }
 
-        public Person GetPersonById(int id)
+        public Person GetPersonById(string id)
         {
             var person = _people.Find(p => p.Id == id);
 
-            return person ?? new Person();
+            return person;
         }
 
         public void UpdatePerson(Person person)
         {
-            var oldPerson = _people.Find(p => p.Id == person.Id);
+            var oldPerson = GetPersonById(person.Id);
 
             if (oldPerson is not null)
             {
                 oldPerson.Name = person.Name;
                 oldPerson.EmailAddress = person.EmailAddress;
-                oldPerson.Age = person.Age;
                 oldPerson.Birthday = person.Birthday;
             }
         }

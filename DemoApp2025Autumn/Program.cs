@@ -28,3 +28,9 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+
+// TODO: Input validation: Required, MaxLength, Email, Range
+
+// TODO: Add log messages
+// TODO: Serilog: Serilog.AspNetCore 9.0.0 (commit)

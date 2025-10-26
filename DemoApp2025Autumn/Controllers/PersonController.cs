@@ -14,39 +14,73 @@ namespace DemoApp2025Autumn.App.Controllers
         }
 
         [HttpGet]
-        public List<Person> Get()
+        public ActionResult<List<Person>> GetAll()
         {
-            return _personService.GetPeople();
+            var people = _personService.GetPeople();
+            return Ok(people);
         }
 
         [HttpGet("{id}")]
-        public Person Get(int id)
+        public ActionResult<Person> Get(string id)
         {
-            return _personService.GetPersonById(id);
+            var person = _personService.GetPersonById(id);
+
+            if (person is null)
+            {
+                return NotFound();
+            }
+
+            return Ok(person);
         }
 
         [HttpPost]
-        public void Post([FromBody] Person person)
+        public IActionResult Post([FromBody] Person person)
         {
+            var existingPerson = _personService.GetPersonById(person.Id);
+
+            if (existingPerson is not null)
+            {
+                return Conflict();
+            }
+
             _personService.AddPerson(person);
+
+            return Ok();
         }
 
         [HttpPut("{id}")]
-        public IActionResult Update(int id, [FromBody] Person person)
+        public IActionResult Update(string id, [FromBody] Person person)
         {
             if (id != person.Id)
             {
                 return BadRequest();
             }
+
+            var oldPerson = _personService.GetPersonById(id);
+
+            if (oldPerson is null)
+            {
+                return NotFound();
+            }
+
             _personService.UpdatePerson(person);
 
             return Ok();
         }
 
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(string id)
         {
+            var existingPerson = _personService.GetPersonById(id);
+
+            if (existingPerson is null)
+            {
+                return NotFound();
+            }
+
             _personService.DeletePerson(id);
+
+            return Ok();
         }
     }
 }

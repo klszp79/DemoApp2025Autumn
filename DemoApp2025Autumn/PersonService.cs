@@ -6,9 +6,11 @@ namespace DemoApp2025Autumn.App
     public class PersonService : IPersonService
     {
         private readonly List<Person> _people = new List<Person>();
-        public PersonService() 
+        private readonly ILogger<PersonService> _logger;
+        public PersonService(ILogger<PersonService> logger) 
         {
             _people = [];
+            _logger = logger;
         }
         public void AddPerson(Person person)
         {
@@ -16,11 +18,15 @@ namespace DemoApp2025Autumn.App
             {
                 _people.Add(person);
             }
+
+            _logger.LogInformation("Person added: {@Person}", person);
         }
 
         public void DeletePerson(string id)
         {
             _people.RemoveAll(x => x.Id == id);
+
+            _logger.LogInformation("Person deleted");
         }
 
         public List<Person> GetPeople()
@@ -45,6 +51,8 @@ namespace DemoApp2025Autumn.App
                 oldPerson.EmailAddress = person.EmailAddress;
                 oldPerson.Birthday = person.Birthday;
             }
+
+            _logger.LogInformation("Person updated");
         }
     }
 }
